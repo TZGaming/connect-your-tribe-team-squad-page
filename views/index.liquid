@@ -9,16 +9,18 @@
   <script src="script.js" defer></script>
 </head>
 
-{% comment %} Berichten {% endcomment %}
+<div class="chatContainer">
+  <div class="closeChat">x</div>
+  {% comment %} Berichten {% endcomment %}
 <section class="messages">
 {% for message in messages %}
-  <p>{{ message.from }}: {{ message.text }} @{{ message.created | date: '%d-%m-%Y %H:%M' }}</p>
+  <p><span class="student">{{ message.from }}</span>: {{ message.text }} <span class="timestamp">@{{ message.created | date: '%d-%m-%Y %H:%M' }}</span></p>
 {% else %}
   <p>Er zijn nog geen berichten voor dit team.</p>
 {% endfor %}
 </section>
 
-<form method="POST" action="/">
+<form method="POST" action="/" id="chatForm">
   <label>
     Naam:
         <input type="text" name="from" required placeholder="Typ je naam...">
@@ -29,6 +31,7 @@
   </label>
   <button type="submit">Verstuur</button>
 </form>
+</div>
 
 {% comment %} Personen grid {% endcomment %}
 <section class="grid">
@@ -48,26 +51,3 @@
     </article>
   {% endfor %}
 </section>
-
-{% comment %} Oude code (voor de zekerheid bewaard) {% endcomment %}
-
-{% comment %} <h2>Huidige berichten</h2>
-
-{% for message in messages %}
-  <p>{{ message.from }}: {{ message.text }} @{{ message.created | date: '%d-%m-%Y %H:%M' }}</p>
-{% else %}
-  <p>Er zijn nog geen berichten voor dit team.</p>
-{% endfor %}
-
-<h2>Voeg een bericht toe</h2>
-<form method="post" action="/">
-  <label>
-    Naam:
-    <input type="text" name="from" required>
-  </label>
-  <label>
-    Bericht:
-    <textarea name="text" required></textarea>
-  </label>
-  <button type="submit">Verstuur</button>
-</form> {% endcomment %}
