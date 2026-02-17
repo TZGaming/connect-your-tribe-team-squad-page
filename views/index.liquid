@@ -1,6 +1,51 @@
-<h1>Zet 'm op team {{ teamName }}!</h1>
+<!DOCTYPE html>
+<html lang="nl">
 
-<h2>Huidige berichten</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Radiant Squad Page</title>
+    <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+{% comment %} Berichten {% endcomment %}
+<section class="messages">
+  {% for message in messages %}
+    <p>{{ message.text }}</p>
+  {% endfor %}
+</section>
+
+<form method="POST" action="/">
+  <label>
+    Bericht:
+    <input type="text" name="text" required placeholder="Typ je bericht...">
+  </label>
+  <button type="submit">Verstuur</button>
+</form>
+
+{% comment %} Personen grid {% endcomment %}
+<section class="grid">
+  {% for person in persons %}
+    <article class="person-card">
+      <a href="/student/{{ person.id }}" class="person-frame">
+        {% if person.name == 'Yassir Bouyi' %}
+          <img src="images/temp.png">
+        {% else %}
+          <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
+        {% endif %}
+      </a>
+      <div class="person-info">
+        <h3>{{ person.name }}</h3>
+        <p>{{ person.vibe_emoji }}  {{ person.id }} {{ person.fav_emoji }} </p>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+
+{% comment %} Oude code (voor de zekerheid bewaard) {% endcomment %}
+
+{% comment %} <h2>Huidige berichten</h2>
 
 {% for message in messages %}
   <p>{{ message.from }}: {{ message.text }} @{{ message.created | date: '%d-%m-%Y %H:%M' }}</p>
@@ -19,4 +64,4 @@
     <textarea name="text" required></textarea>
   </label>
   <button type="submit">Verstuur</button>
-</form>
+</form> {% endcomment %}
