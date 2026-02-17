@@ -1,7 +1,7 @@
 import express from 'express'
 import { Liquid } from 'liquidjs'
 
-const teamName = 'Radiant' 
+const teamName = 'Radiant'
 const app = express()
 
 app.use(express.static('public'))
@@ -28,7 +28,7 @@ app.get('/', async function (request, response) {
 
     const messageParams = new URLSearchParams({
       'filter[for]': `Team ${teamName}`,
-      'sort': '-date_created',
+      'sort': '-created',
       'limit': 15
     });
 
@@ -39,6 +39,9 @@ app.get('/', async function (request, response) {
 
     const personData = await personRes.json();
     const messageData = await messageRes.json();
+
+    // // console.log test voor issue
+    // console.log('Log bericht', messageData);
 
     response.render('index.liquid', {
       persons: personData.data,
@@ -78,7 +81,7 @@ app.get('/student/:id', async function (request, response) {
   try {
     const personDetailRes = await fetch(`${API_URL}/person/${request.params.id}`);
     const personDetailData = await personDetailRes.json();
-    
+
     response.render('student.liquid', {
       person: personDetailData.data
     });

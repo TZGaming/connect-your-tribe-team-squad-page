@@ -11,12 +11,18 @@
 
 {% comment %} Berichten {% endcomment %}
 <section class="messages">
-  {% for message in messages %}
-    <p>{{ message.text }}</p>
-  {% endfor %}
+{% for message in messages %}
+  <p>{{ message.from }}: {{ message.text }} @{{ message.created | date: '%d-%m-%Y %H:%M' }}</p>
+{% else %}
+  <p>Er zijn nog geen berichten voor dit team.</p>
+{% endfor %}
 </section>
 
 <form method="POST" action="/">
+  <label>
+    Naam:
+        <input type="text" name="from" required placeholder="Typ je naam...">
+</label>
   <label>
     Bericht:
     <input type="text" name="text" required placeholder="Typ je bericht...">
