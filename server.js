@@ -4,7 +4,7 @@ import { Liquid } from 'liquidjs';
 
 
 // Vul hier jullie team naam in
-const teamName = '';
+const teamName = 'Radiant';
 
 
 const app = express()
@@ -12,12 +12,13 @@ const app = express()
 app.use(express.static('public'))
 
 const engine = new Liquid();
-app.engine('liquid', engine.express()); 
+app.engine('liquid', engine.express());
 
 app.set('views', './views')
 
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
+let messagesArray = []
 
 app.get('/', async function (request, response) {
 
@@ -78,6 +79,11 @@ app.post('/', async function (request, response) {
 
   // Stuur de browser daarna weer naar de homepage
   response.redirect(303, '/')
+})
+
+app.post('/messages', async function (request, response) {
+  messagesArray.push(request.body.message)
+  response.redirect(303, '/messages')
 })
 
 
