@@ -3,11 +3,30 @@ body {
         radial-gradient(circle at 20% 10%, #222 0%, #111 40%, #000 100%);
     color: white;
     font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+.combi-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.person-sidebar-container {
+    position: sticky;
+    top: 0;
+    width: 0vw;
+    height: 100vh;
+    background-color: purple;
+    transition: width .2s;
+    &.trigger-sidebar {
+        width: 50vw;
+    }
 }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    margin-top: 10px;
     gap: 13px;
     width: 100%;
     padding: 10px;

@@ -48,22 +48,27 @@ chat_paste_go_2
 
 </div>
 
-{% comment %} Personen grid {% endcomment %}
-<section class="grid">
-  {% for person in persons %}
-    <article class="person-card">
-      <a href="/student/{{ person.id }}" class="person-frame">
-        {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' %}
-          <img src="images/temp.png">
-        {% else %}
-          <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
-        {% endif %}
-      </a>
-      <div class="person-info">
-        <h3>{{ person.name }}</h3>
-        <p>{{ person.vibe_emoji }}  {{ person.id }} {{ person.fav_emoji }} </p>
-      </div>
-    </article>
-  {% endfor %}
+<section class="combi-container">
+  {% comment %} Personen grid {% endcomment %}
+  <section class="grid">
+    {% for person in persons %}
+      <article class="person-card">
+        <a class="person-frame">
+          {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' %}
+            <img src="images/temp.png">
+          {% else %}
+            <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
+          {% endif %}
+        </a>
+        <div class="person-info">
+          <h3>{{ person.name }}</h3>
+          <p>{{ person.vibe_emoji }}  {{ person.id }} {{ person.fav_emoji }} </p>
+        </div>
+      </article>
+    {% endfor %}
+  </section>
+
+  <section class="person-sidebar-container">
+  </section>
 </section>
 </body>
