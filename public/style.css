@@ -5,6 +5,27 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
 }
+.topbar {
+    display: flex;
+    gap: 14px;
+    
+}
+
+.topbar details{
+    position: relative;
+    background: linear-gradient(#4b4b4b, #2e2e2e);
+    border: none;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,.6);
+}
+
+input{
+    height: 2.5em;
+    justify-self: center;
+}
 
 .combi-container {
     display: flex;
