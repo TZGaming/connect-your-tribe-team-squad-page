@@ -12,6 +12,8 @@
 
 <body>
 
+  <div class="openChat">Open chat</div>
+
 <div class="chatContainer">
   <div class="closeChat">x</div>
   {% comment %} Berichten {% endcomment %}
@@ -49,7 +51,7 @@ chat_paste_go_2
   {% for person in persons %}
     <article class="person-card">
       <a href="/student/{{ person.id }}" class="person-frame">
-        {% if person.name == 'Yassir Bouyi' %}
+        {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' %}
           <img src="images/temp.png">
         {% else %}
           <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
