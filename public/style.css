@@ -17,6 +17,8 @@ body {
     width: 0vw;
     height: 100vh;
     background-color: purple;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
     transition: width .2s;
     &.trigger-sidebar {
         width: 50vw;
@@ -42,6 +44,23 @@ body {
     border-radius: 15px;
     aspect-ratio: 1 / 1.35;
     width: 100%;
+    opacity: 0;
+
+    animation-name: pageload;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(.52,.91,.8,1);
+}
+
+@keyframes pageload {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
 }
 
 .person-frame {
@@ -102,6 +121,7 @@ body {
     transform: scaleY(1);
     transform-origin: bottom left;
     transition: all .2s;
+    z-index: 999;
 
     @media screen and (max-width: 440px) {
         width: 88%;
@@ -235,6 +255,7 @@ body {
     pointer-events: none;
     opacity: 0;
     transition: .2s;
+    z-index: 999;
 
     &.show {
         opacity: 1;
