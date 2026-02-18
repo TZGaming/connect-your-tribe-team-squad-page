@@ -12,6 +12,10 @@ body {
     align-items: center; 
 }
 
+.topbar details {
+    position: relative;
+    margin-left: 1em;
+}
 
 .topbar summary {
     background: linear-gradient(#4b4b4b, #2e2e2e);
@@ -28,10 +32,6 @@ body {
     display: none;
 }
 
-
-.topbar details {
-    position: relative;
-}
 
 .topbar ul {
     position: absolute;
