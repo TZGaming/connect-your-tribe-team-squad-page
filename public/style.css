@@ -5,22 +5,58 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
 }
+
 .topbar {
     display: flex;
     gap: 14px;
-    
+    align-items: center; 
 }
 
-.topbar details{
-    position: relative;
+
+.topbar summary {
     background: linear-gradient(#4b4b4b, #2e2e2e);
-    border: none;
     color: white;
     padding: 8px 18px;
     border-radius: 14px;
     cursor: pointer;
+    list-style: none;
     box-shadow: 0 2px 6px rgba(0,0,0,.6);
 }
+
+
+.topbar summary::-webkit-details-marker {
+    display: none;
+}
+
+
+.topbar details {
+    position: relative;
+}
+
+.topbar ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #333;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 5px;
+    min-width: 120px;
+    z-index: 10;
+}
+
+.topbar li {
+    list-style: none;
+    margin: 5px 0;
+}
+
+.topbar a {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+
 
 input{
     height: 2.5em;
