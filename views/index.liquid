@@ -54,7 +54,7 @@ chat_paste_go_2
     {% for person in persons %}
       <article class="person-card">
         <a class="person-frame">
-          {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' %}
+          {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' or person.name == 'Isolde Sturkenboom' %}
             <img src="images/temp.png">
           {% else %}
             <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
