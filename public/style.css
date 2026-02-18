@@ -64,53 +64,104 @@ body {
 
 .chatContainer {
     /* display: none;*/
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
     width: 400px;
     height: 500px;
-    border-radius: 10px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     background-color: #323232;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     position: fixed;
     bottom: 0;
-    left: 20px;
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    margin-left: 20px;
+    border: 1px solid #474747;
 
     & .closeChat {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
-        border-bottom: 0.5px solid white;
         padding-bottom: 5px;
+        padding-right: 10px;
     }
 
-    & .messages {
-        background-color: #323232;
+    & .messagesContainer {
+        height: 390px;
+        background-color: #474747;
+        border: 1px solid #515151;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 3px 3px 6px 0px #000000 inset, -3px -3px 6px 1px rgba(0, 0, 0, 0.5) inset;
+
+
+        & .messages {
+            height: 99%;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            border-radius: 10px;
+            padding-left: 5px;
+        }
 
         & p {
             font-style: italic;
             border-bottom: 0.5px solid #515151;
-            padding-bottom: 5px;
+            padding: 20px;
+            background-color: #009100;
+            width: max-content;
+            border-radius: 10px;
         }
 
         & span.student {
             font-weight: 700;
             font-style: normal;
             /* Navragen hoe je fav kleur als text-color kan maken */
-            /* color: `${{ person.color }}`; */
         }
 
         & span.timestamp {
-            color: #515151;
+            color: white;
+            font-size: small;
+            margin-left: 5px;
         }
     }
 
-    & #chatForm {
+    & .inputFields {
         display: flex;
         flex-direction: row;
-        background-color: #1f1f1f;
-        padding: 10px;
+        align-content: flex-end;
+        width: 100%;
+        margin-bottom: 10px;
+        margin-top: 10px;
+
+        & form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        & button {
+            background-color: transparent;
+            border-width: 0;
+            font-family: inherit;
+            font-size: inherit;
+            font-style: inherit;
+            font-weight: inherit;
+            line-height: inherit;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        & .material-symbols-outlined {
+            color: white;
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
     }
 }
