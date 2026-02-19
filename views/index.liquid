@@ -93,7 +93,17 @@
           <article class="person-card" 
             style="--hover-color: {{ person.fav_color }};"
             data-name="{{ person.name }}"
-            data-squad="{{ person.squads[0].squad_id.name }}"
+
+            {% comment %} Alleen squad 1I of 1J {% endcomment %}
+            {% assign correct_squad = "" %}
+            {% for squad_item in person.squads %}
+              {% assign s_name = squad_item.squad_id.name %}
+                {% if s_name contains "1I" or s_name contains "1J" %}
+                {% assign correct_squad = s_name %}
+              {% endif %}
+            {% endfor %}
+            data-squad="{{ correct_squad }}"
+
             data-residency="{{ person.residency }}"
             data-color="{{ person.fav_color }}"
             data-favTag="{{ person.fav_tag | escape }}"
