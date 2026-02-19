@@ -19,15 +19,15 @@ openChatButton.addEventListener('click', () => {
 // Automatisch contrastkleur bepalen voor tekst op basis van achtergrondkleur
 function getContrastColor(hexcolor) {
     if (!hexcolor || hexcolor.length < 6) return 'white';
-    
+
     // Kleur omzetten naar RGB
     const r = parseInt(hexcolor.substring(1, 3), 16);
     const g = parseInt(hexcolor.substring(3, 5), 16);
     const b = parseInt(hexcolor.substring(5, 7), 16);
-    
+
     // Bereken helderheid van de kleur
     const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-    
+
     // Lichte kleur = zwart, donkere kleur = wit
     return (yiq >= 128) ? 'black' : 'white';
 }
@@ -47,14 +47,14 @@ personCards.forEach((card, index) => {
         const resetSidebar = () => {
             sideBar.classList.remove('trigger-sidebar');
             personCards.forEach(c => c.classList.remove('active'));
-            
+
             // Maak de sidebar velden leeg na de transitie
             setTimeout(() => {
                 sidebarName.textContent = "";
                 sidebarNickname.textContent = "";
                 sidebarNickname.style.display = "none";
-                sidebarInfo.innerHTML = "-";
-                bioElement.innerHTML = "-";
+                sidebarInfo.innerHTML = "";
+                bioElement.innerHTML = "";
                 sideBar.style.backgroundColor = "";
                 sideBar.style.outline = "none";
             }, 200);
@@ -63,7 +63,7 @@ personCards.forEach((card, index) => {
         // Als hij al actief was: unloaden en stoppen
         if (isActive) {
             resetSidebar();
-            return; 
+            return;
         }
 
         // Reset card active state
@@ -99,7 +99,7 @@ personCards.forEach((card, index) => {
 
         // --- Sidebar invullen (Inladen) ---
         sidebarName.textContent = name;
-        
+
         const hasHTML = /<[a-z][\s\S]*>/i.test(nickname);
         if (nickname && nickname !== "null" && !hasHTML) {
             sidebarNickname.textContent = `Ook bekend als ${nickname}.`;
@@ -109,12 +109,12 @@ personCards.forEach((card, index) => {
         }
 
         document.querySelector('.sidebar-basis-informatie').textContent = `Member van team ${team}, ${age} jaar oud. Deze persoon zit in Squad ${squad} en woont in ${residency || 'niemandsland'}. Hij/zij houdt ervan om de ${favTag} tag te gebruiken in HTML en is lekker in CSS aan het klooien met de ${favProperty} property.`;
-        
+
         bioElement.innerHTML = tempDiv.innerHTML || '<em>Geen bio ingevuld</em>';
 
         // Styling
         sideBar.style.backgroundColor = color;
-        sideBar.style.color = contrastColor; 
+        sideBar.style.color = contrastColor;
         sidebarName.style.color = contrastColor;
         sidebarName.style.textShadow = (contrastColor === 'black') ? 'none' : '2px 2px 0px #000';
         sideBar.style.outline = (contrastColor === 'black') ? 'none' : '4px solid #ffffff';
@@ -127,12 +127,12 @@ personCards.forEach((card, index) => {
 
 function calculateAge(birthdate) {
     if (!birthdate || birthdate === "null") return null;
-    
+
     const today = new Date();
     const birthDate = new Date(birthdate);
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
@@ -164,11 +164,17 @@ if (chatForm) {
             if (response.ok) {
                 // Maak een nieuw bericht element aan voor de message container
                 const now = new Date();
-                const timeString = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}`;
-                
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const year = now.getFullYear();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+
+                const timeString = `${day}-${month}-${year} ${hours}:${minutes}`;
+
                 const newMessage = document.createElement('p');
                 newMessage.innerHTML = `<span class="student">${data.from}</span>: ${data.text} <span class="timestamp"> | ${timeString}</span>`;
-                
+
                 // Voeg toe bovenaan de lijst
                 messagesList.prepend(newMessage);
 

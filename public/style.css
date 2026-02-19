@@ -26,6 +26,10 @@ body {
         cursor: pointer;
         list-style: none;
         box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+
+        &:hover {
+            background: linear-gradient(#2e2e2e, #4b4b4b);
+        }
     }
 
     summary::-webkit-details-marker {
@@ -75,12 +79,23 @@ body {
             width: 2.5em;
             height: 2.5em;
             border: none;
-            border-left: #919191 solid 1px;
+            border-left: #b4b4b4 solid 1px;
             border-top-right-radius: 100%;
             border-bottom-right-radius: 100%;
+            transition: background-color .2s;
+
+            img {
+                margin-right: 2px;
+                transition: .2s;
+            }
 
             &:hover {
+                background-color: rgb(240, 240, 240);
                 cursor: pointer;
+            }
+
+            &:hover img {
+                scale: 0.9;
             }
         }
     }
@@ -156,6 +171,11 @@ body {
     0% {
         opacity: 0;
         scale: 0;
+    }
+
+    50% {
+        opacity: 0.5;
+        scale: 1;
     }
 
     100% {
