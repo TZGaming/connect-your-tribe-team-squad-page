@@ -12,57 +12,78 @@ body {
     gap: 14px;
     align-items: center;
     margin-top: 15px;
-}
 
-.topbar details {
-    position: relative;
-    margin-left: 1em;
-}
+    details {
+        position: relative;
+        margin-left: 1em;
+    }
 
-.topbar summary {
-    background: linear-gradient(#4b4b4b, #2e2e2e);
-    color: white;
-    padding: 8px 18px;
-    border-radius: 14px;
-    cursor: pointer;
-    list-style: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
-}
+    summary {
+        background: linear-gradient(#4b4b4b, #2e2e2e);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 14px;
+        cursor: pointer;
+        list-style: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+    }
 
+    summary::-webkit-details-marker {
+        display: none;
+    }
 
-.topbar summary::-webkit-details-marker {
-    display: none;
-}
+    ul {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #333;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 5px;
+        min-width: 120px;
+        z-index: 10;
+    }
 
-.topbar ul {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #333;
-    padding: 10px;
-    border-radius: 8px;
-    margin-top: 5px;
-    min-width: 120px;
-    z-index: 10;
-}
+    li {
+        list-style: none;
+        margin: 5px 0;
+    }
 
-.topbar li {
-    list-style: none;
-    margin: 5px 0;
-}
+    a {
+        text-decoration: none;
+        color: white;
+        display: block;
+    }
 
-.topbar a {
-    text-decoration: none;
-    color: white;
-    display: block;
-}
+    .searchContainer {
+        display: flex;
+        flex-direction: row;
+        #searchBar {
+            height: 2.5em;
+            justify-self: center;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            border: none;
+            padding-left: 6px;
+        }
 
-input#searchBar {
-    height: 2.5em;
-    justify-self: center;
-    border-radius: 10px;
-    border: none;
-    padding-left: 6px;
+        button {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.5em;
+            height: 2.5em;
+            border: none;
+            border-left: #919191 solid 1px;
+            border-top-right-radius: 100%;
+            border-bottom-right-radius: 100%;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
 }
 
 .combi-container {
@@ -78,9 +99,10 @@ input#searchBar {
     background-color: var(--fav-color);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    margin-top: -50px;
+    margin-top: -47px;
     padding-top: 10px;
     padding-left: 15px;
+    padding-right: 15px;
     color: white;
     transition: .2s;
 
