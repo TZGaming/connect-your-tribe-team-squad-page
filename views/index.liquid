@@ -12,133 +12,135 @@
 
 <body>
 
-  <nav class="topbar">
-    <details> 
-      <summary>Sorteren</summary>
-        <ul>
-          <li><a href="/">Id</a></li>
-          <li> <a href="/az">A-Z</a></li>
-          <li><a href="/za">Z-A</a></li>
-          <li> <a href="/squad-1j">Squad 1J</a></li>
-          <li><a href="/squad-1I">Squad 1I</a></li>
-        </ul>
-      </details>
+  <main>
+    <nav class="topbar">
+      <details> 
+        <summary>Sorteren</summary>
+          <ul>
+            <li><a href="/">Id</a></li>
+            <li> <a href="/az">A-Z</a></li>
+            <li><a href="/za">Z-A</a></li>
+            <li> <a href="/squad-1j">Squad 1J</a></li>
+            <li><a href="/squad-1I">Squad 1I</a></li>
+          </ul>
+        </details>
 
-      <form action="/search" method="GET">
-        <div class="searchContainer">
-          <input id="searchBar" name="search" type="search" placeholder="Zoeken...">
-          <button type="submit"><img src="images/magnifying-glass.svg" alt="Zoek knop" width="20"></button>
-        </div>
-      </form>
-  </nav>
-
-  <div class="openChat show">Open chat</div>
-
-  <div class="chatContainer hide">
-    <div class="closeChatContainer">
-      <div class="closeChat">x</div>
-    </div>
-    {% comment %} Berichten {% endcomment %}
-    <section class="messagesContainer">
-      <div class="messages">
-        {% for message in messages %}
-          {% comment %} Standaard kleur {% endcomment %}
-          {% assign match_color = '#009100' %}
-          {% assign sender = message.from | downcase %}
-          
-          {% for person in persons %}
-            {% assign p_name = person.name | downcase %}
-            {% if p_name contains sender or sender contains p_name %}
-              {% assign match_color = person.fav_color %}
-            {% endif %}
-          {% endfor %}
-
-          {% comment %} Contrastkleur berekening {% endcomment %}
-          {% assign r = match_color | slice: 1, 2 | hex_to_int %}
-          {% assign g = match_color | slice: 3, 2 | hex_to_int %}
-          {% assign b = match_color | slice: 5, 2 | hex_to_int %}
-          {% assign brightness = r | times: 299 | plus: g | times: 587 | plus: b | times: 114 | divided_by: 1000 %}
-          {% if brightness > 128 %}{% assign text_color = 'white' %}{% else %}{% assign text_color = 'black' %}{% endif %}
-
-          <p style="background-color: {{ match_color }}; color: {{ text_color }};">
-            <span class="student">{{ message.from }}</span>: {{ message.text }} 
-            <span class="timestamp" style="color: {{ text_color }};"> | {{ message.created | date: '%d-%m-%Y %H:%M' }}</span>
-          </p>
-        {% else %}
-          <p>Er zijn nog geen berichten voor dit team.</p>
-        {% endfor %}
-      </div>
-    </section>
-
-    <form method="POST" action="/" class="inputFields" id="chatForm">
-      <label>
-        Naam:
-            <input type="text" name="from" id="chatFrom" required placeholder="Typ je naam...">
-      </label>
-      <label>
-        Bericht:
-        <input type="text" name="text" id="chatText" required placeholder="Typ je bericht...">
-      </label>
-      <button type="submit">
-        <span class="material-symbols-outlined">chat_paste_go_2</span>
-      </button>
-    </form>
-  </div>
-
-  <section class="combi-container">
-
-    {% comment %} Personen grid {% endcomment %}
-    <section class="grid">
-      {% for person in persons %}
-        <article class="person-card" 
-          style="--hover-color: {{ person.fav_color }};"
-          data-name="{{ person.name }}"
-          data-squad="{{ person.squads[0].squad_id.name }}"
-          data-residency="{{ person.residency }}"
-          data-color="{{ person.fav_color }}"
-          data-favTag="{{ person.fav_tag | escape }}"
-          data-birthdate="{{ person.birthdate }}"
-          data-favProperty="{{ person.fav_property}}"
-          data-team="{{ person.team }}"
-          data-bio='{{ person.bio | escape }}'
-          data-github="{{ person.github_handle }}"
-          data-favSong="{{ person.fav_song }}"
-
-          {% if person.nickname contains '<' %}
-            data-nickname="" 
-          {% else %}
-            data-nickname="{{ person.nickname | escape }}"
-          {% endif %}>
-          <a class="person-frame">
-            {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' or person.name == 'Isolde Sturkenboom' %}
-              <img src="images/temp.png" alt="Geen profielfoto">
-            {% else %}
-              <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
-            {% endif %}
-          </a>
-          <div class="person-info">
-            <h3>{{ person.name }}</h3>
-            <p>{{ person.vibe_emoji }}  {{ person.id }} {{ person.fav_emoji }} </p>
+        <form action="/search" method="GET">
+          <div class="searchContainer">
+            <input id="searchBar" name="search" type="search" placeholder="Zoeken...">
+            <button type="submit"><img src="images/magnifying-glass.svg" alt="Zoek knop" width="20"></button>
           </div>
-        </article>
-      {% endfor %}
-    </section>
+        </form>
+    </nav>
 
-    {% comment %} Sidebar {% endcomment %}
-    <section class="person-sidebar-container">
-      <h1 class="sidebar-name"></h1>
-      {% if person.nickname == 'null' %}
-      {% else %}
-        <h2 class="sidebar-nickname"></h2>
-      {% endif %}
-      <p><span class="sidebar-bio"></span></p>
-      <p><span class="sidebar-basis-informatie"></span></p>
-      <p class="sidebar-github"></p>
-      <div id="embed-iframe" style="display: none;">
-        <iframe id="iframe-player"></iframe>
+    <div class="openChat show">Open chat</div>
+
+    <div class="chatContainer hide">
+      <div class="closeChatContainer">
+        <div class="closeChat">x</div>
       </div>
-    </section>
+      {% comment %} Berichten {% endcomment %}
+      <section class="messagesContainer">
+        <div class="messages">
+          {% for message in messages %}
+            {% comment %} Standaard kleur {% endcomment %}
+            {% assign match_color = '#009100' %}
+            {% assign sender = message.from | downcase %}
+            
+            {% for person in persons %}
+              {% assign p_name = person.name | downcase %}
+              {% if p_name contains sender or sender contains p_name %}
+                {% assign match_color = person.fav_color %}
+              {% endif %}
+            {% endfor %}
 
-  </section>
+            {% comment %} Contrastkleur berekening {% endcomment %}
+            {% assign r = match_color | slice: 1, 2 | hex_to_int %}
+            {% assign g = match_color | slice: 3, 2 | hex_to_int %}
+            {% assign b = match_color | slice: 5, 2 | hex_to_int %}
+            {% assign brightness = r | times: 299 | plus: g | times: 587 | plus: b | times: 114 | divided_by: 1000 %}
+            {% if brightness > 128 %}{% assign text_color = 'white' %}{% else %}{% assign text_color = 'black' %}{% endif %}
+
+            <p style="background-color: {{ match_color }}; color: {{ text_color }};">
+              <span class="student">{{ message.from }}</span>: {{ message.text }} 
+              <span class="timestamp" style="color: {{ text_color }};"> | {{ message.created | date: '%d-%m-%Y %H:%M' }}</span>
+            </p>
+          {% else %}
+            <p>Er zijn nog geen berichten voor dit team.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <form method="POST" action="/" class="inputFields" id="chatForm">
+        <label>
+          Naam:
+              <input type="text" name="from" id="chatFrom" required placeholder="Typ je naam...">
+        </label>
+        <label>
+          Bericht:
+          <input type="text" name="text" id="chatText" required placeholder="Typ je bericht...">
+        </label>
+        <button type="submit">
+          <span class="material-symbols-outlined">chat_paste_go_2</span>
+        </button>
+      </form>
+    </div>
+
+    <section class="combi-container">
+
+      {% comment %} Personen grid {% endcomment %}
+      <section class="grid">
+        {% for person in persons %}
+          <article class="person-card" 
+            style="--hover-color: {{ person.fav_color }};"
+            data-name="{{ person.name }}"
+            data-squad="{{ person.squads[0].squad_id.name }}"
+            data-residency="{{ person.residency }}"
+            data-color="{{ person.fav_color }}"
+            data-favTag="{{ person.fav_tag | escape }}"
+            data-birthdate="{{ person.birthdate }}"
+            data-favProperty="{{ person.fav_property}}"
+            data-team="{{ person.team }}"
+            data-bio='{{ person.bio | escape }}'
+            data-github="{{ person.github_handle }}"
+            data-favSong="{{ person.fav_song }}"
+
+            {% if person.nickname contains '<' %}
+              data-nickname="" 
+            {% else %}
+              data-nickname="{{ person.nickname | escape }}"
+            {% endif %}>
+            <a class="person-frame">
+              {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' or person.name == 'Isolde Sturkenboom' %}
+                <img src="images/temp.png" alt="Geen profielfoto">
+              {% else %}
+                <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
+              {% endif %}
+            </a>
+            <div class="person-info">
+              <h3>{{ person.name }}</h3>
+              <p>{{ person.vibe_emoji }}  {{ person.id }} {{ person.fav_emoji }} </p>
+            </div>
+          </article>
+        {% endfor %}
+      </section>
+
+      {% comment %} Sidebar {% endcomment %}
+      <section class="person-sidebar-container">
+        <h1 class="sidebar-name"></h1>
+        {% if person.nickname == 'null' %}
+        {% else %}
+          <h2 class="sidebar-nickname"></h2>
+        {% endif %}
+        <p><span class="sidebar-bio"></span></p>
+        <p><span class="sidebar-basis-informatie"></span></p>
+        <p class="sidebar-github"></p>
+        <div id="embed-iframe" style="display: none;">
+          <iframe id="iframe-player"></iframe>
+        </div>
+      </section>
+
+    </section>
+  </main>
 
 </body>
