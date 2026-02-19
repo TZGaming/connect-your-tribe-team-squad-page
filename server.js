@@ -4,6 +4,7 @@ import { Liquid } from 'liquidjs'
 const teamName = 'Radiant'
 const app = express()
 
+app.use(express.json());
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 
@@ -55,10 +56,11 @@ app.get('/', async function (request, response) {
 
 // ---------------------------------------------------------
 // POST /berichten
+// Herlaadt de pagina nu niet meer als je iets post
 // ---------------------------------------------------------
 app.post('/', async function (request, response) {
   try {
-    await fetch(`${API_URL}/messages`, {
+    const res = await fetch(`${API_URL}/messages`, {
       method: 'POST',
       body: JSON.stringify({
         for: `Team ${teamName}`,
@@ -68,9 +70,13 @@ app.post('/', async function (request, response) {
       headers: { 'Content-Type': 'application/json;charset=UTF-8' }
     });
 
-    response.redirect(303, '/');
+    if (request.headers['content-type'] === 'application/json') {
+      return response.status(200).json({ success: true });
+    } else {
+      response.redirect(303, '/');
+    }
   } catch (error) {
-    response.redirect(303, '/');
+    response.status(500).send("Fout bij opslaan");
   }
 });
 

@@ -43,12 +43,12 @@ personCards.forEach((card, index) => {
         const sidebarInfo = document.querySelector('.sidebar-basis-informatie');
         const bioElement = document.querySelector('.sidebar-bio');
 
-        // Functie om de data te "unloaden"
+        // Data unloaden uit de sidebar
         const resetSidebar = () => {
             sideBar.classList.remove('trigger-sidebar');
             personCards.forEach(c => c.classList.remove('active'));
             
-            // Maak de velden leeg na de transitie (zodat je het niet ziet verspringen)
+            // Maak de sidebar velden leeg na de transitie
             setTimeout(() => {
                 sidebarName.textContent = "";
                 sidebarNickname.textContent = "";
@@ -57,20 +57,20 @@ personCards.forEach((card, index) => {
                 bioElement.innerHTML = "-";
                 sideBar.style.backgroundColor = "";
                 sideBar.style.outline = "none";
-            }, 200); // match de 0.2s transition in je CSS
+            }, 200);
         };
 
-        // 1. Als hij al actief was: unloaden en stoppen
+        // Als hij al actief was: unloaden en stoppen
         if (isActive) {
             resetSidebar();
             return; 
         }
 
-        // 2. Reset eerst alles voordat we nieuwe data inladen
+        // Reset card active state
         personCards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
 
-        // --- Data ophalen ---
+        // Data ophalen
         const name = card.getAttribute('data-name');
         const squad = card.getAttribute('data-squad');
         const residency = card.getAttribute('data-residency');
@@ -137,4 +137,46 @@ function calculateAge(birthdate) {
         age--;
     }
     return age;
+}
+
+const chatForm = document.querySelector('#chatForm');
+const messagesList = document.querySelector('.messages');
+
+if (chatForm) {
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Voorkom herladen van de pagina
+
+        // Haal de data uit de input velden
+        const formData = new FormData(chatForm);
+        const data = {
+            from: formData.get('from'),
+            text: formData.get('text')
+        };
+
+        try {
+            // Verstuur naar de server
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                // Maak een nieuw bericht element aan voor de message container
+                const now = new Date();
+                const timeString = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}`;
+                
+                const newMessage = document.createElement('p');
+                newMessage.innerHTML = `<span class="student">${data.from}</span>: ${data.text} <span class="timestamp"> | ${timeString}</span>`;
+                
+                // Voeg toe bovenaan de lijst
+                messagesList.prepend(newMessage);
+
+                // Maak het tekstveld leeg
+                document.querySelector('#chatText').value = '';
+            }
+        } catch (error) {
+            console.error('Fout bij verzenden:', error);
+        }
+    });
 }
