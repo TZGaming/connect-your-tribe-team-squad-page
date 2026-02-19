@@ -6,7 +6,7 @@
     <title>Team Radiant Squad Page</title>
     <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=chat_paste_go_2" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=chat_paste_go_2">
   <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </head>
 
@@ -27,7 +27,7 @@
       <form action="/search" method="GET">
         <div class="searchContainer">
           <input id="searchBar" name="search" type="search" placeholder="Zoeken...">
-          <button type="submit"><img src="images/magnifying-glass.svg" width="20"></button>
+          <button type="submit"><img src="images/magnifying-glass.svg" alt="Zoek knop" width="20"></button>
         </div>
       </form>
   </nav>
@@ -111,7 +111,7 @@
           {% endif %}>
           <a class="person-frame">
             {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' or person.name == 'Isolde Sturkenboom' %}
-              <img src="images/temp.png">
+              <img src="images/temp.png" alt="Geen profielfoto">
             {% else %}
               <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
             {% endif %}
