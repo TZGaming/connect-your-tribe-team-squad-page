@@ -64,6 +64,7 @@
   </div>
 
   <section class="combi-container">
+
     {% comment %} Personen grid {% endcomment %}
     <section class="grid">
       {% for person in persons %}
@@ -73,8 +74,16 @@
           data-squad="{{ person.squads[0].squad_id.name }}"
           data-residency="{{ person.residency }}"
           data-color="{{ person.fav_color }}"
-          data-bio='{{ person.bio | escape }}'>
-
+          data-favTag="{{ person.fav_tag | escape }}"
+          data-birthdate="{{ person.birthdate }}"
+          data-favProperty="{{ person.fav_property}}"
+          data-team="{{ person.team }}"
+          data-bio='{{ person.bio | escape }}'
+          {% if person.nickname contains '<' %}
+            data-nickname="" 
+          {% else %}
+            data-nickname="{{ person.nickname | escape }}"
+          {% endif %}>
           <a class="person-frame">
             {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' or person.name == 'Isolde Sturkenboom' %}
               <img src="images/temp.png">
@@ -90,11 +99,17 @@
       {% endfor %}
     </section>
 
-  <section class="person-sidebar-container">
-    <h1 class="sidebar-name"></h1>
-    <p><span class="sidebar-bio">-</span></p>
-    <p>Squad: <span class="sidebar-squad">-</span></p>
-    <p>Woonplaats: <span class="sidebar-residency">-</span></p>
+    {% comment %} Sidebar {% endcomment %}
+    <section class="person-sidebar-container">
+      <h1 class="sidebar-name"></h1>
+      {% if person.nickname == 'null' %}
+      {% else %}
+        <h2 class="sidebar-nickname"></h2>
+      {% endif %}
+      <p><span class="sidebar-bio"></span></p>
+      <p><span class="sidebar-basis-informatie"></span></p>
+    </section>
+
   </section>
 
 </body>
