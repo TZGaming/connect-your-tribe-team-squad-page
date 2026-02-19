@@ -1,32 +1,52 @@
+// Variabelen en elementen selecteren
 let personCards = document.querySelectorAll('.person-card');
 let chatContainer = document.querySelector('.chatContainer');
 let closeChat = document.querySelector('.closeChat');
 let openChatButton = document.querySelector('.openChat');
 let sideBar = document.querySelector('.person-sidebar-container');
+let iframeElement = document.getElementById('embed-iframe');
 
 // https://developer.spotify.com/documentation/embeds/tutorials/using-the-iframe-api
+let spotifyIframeAPI; 
 let spotifyPlayer;
 
 window.onSpotifyIframeApiReady = (IFrameAPI) => {
-    const element = document.getElementById('embed-iframe');
-    const options = {
-        width: '100%',
-        height: '200',
-        uri: ''
-    };
-    const callback = (EmbedController) => {
-        spotifyPlayer = EmbedController;
-    };
-    IFrameAPI.createController(element, options, callback);
+    spotifyIframeAPI = IFrameAPI;
 };
 
-// Laad spotify uri in
 function loadUri(uri) {
-    if (spotifyPlayer && uri && uri !== 'null') {
-        spotifyPlayer.loadUri(uri);
+    const container = document.getElementById('embed-iframe');
+    
+    if (!container) return;
+
+    // Maak de container altijd helemaal leeg
+    container.innerHTML = '';
+    
+    const hasValidUri = uri && uri !== 'null' && uri !== '';
+
+    if (spotifyIframeAPI && hasValidUri) {
+        container.style.display = 'block';
+
+        // Maak een tijdelijk nieuw element aan waar Spotify de speler in zet
+        const tempPlaceholder = document.createElement('div');
+        container.appendChild(tempPlaceholder);
+
+        const options = {
+            width: '100%',
+            height: '200',
+            uri: uri
+        };
+
+        // Gebruik het tijdelijke element voor de controller
+        spotifyIframeAPI.createController(tempPlaceholder, options, (EmbedController) => {
+            spotifyPlayer = EmbedController;
+        });
+    } else {
+        // Verberg de iframe als er geen spotify link is opgegeven
+        container.style.display = 'none';
+        spotifyPlayer = null;
     }
 }
-
 
 // Chat sluiten
 closeChat.addEventListener('click', () => {
@@ -72,6 +92,8 @@ personCards.forEach((card, index) => {
             sideBar.classList.remove('trigger-sidebar');
             personCards.forEach(c => c.classList.remove('active'));
 
+            loadUri(null);
+
             // Maak de sidebar velden leeg na de transitie
             setTimeout(() => {
                 sidebarName.textContent = "";
@@ -113,7 +135,7 @@ personCards.forEach((card, index) => {
         // Contrast bepalen
         const contrastColor = getContrastColor(color);
 
-        // Bio opschonen
+        // Bio opschonen omdat sommige mensen vervelend zijn en divs in hun bio zetten die de de layout breken
         let tempDiv = document.createElement('div');
         tempDiv.innerHTML = rawBio;
         const divs = tempDiv.querySelectorAll('div');
@@ -124,7 +146,7 @@ personCards.forEach((card, index) => {
             div.parentNode.removeChild(div);
         });
 
-        // --- Sidebar invullen (Inladen) ---
+        // Sidebar data invullen
         sidebarName.textContent = name;
 
         const hasHTML = /<[a-z][\s\S]*>/i.test(nickname);
@@ -155,7 +177,7 @@ personCards.forEach((card, index) => {
         sideBar.style.outline = (contrastColor === 'black') ? 'none' : '4px solid #ffffff';
         sideBar.style.outlineOffset = (contrastColor === 'black') ? '0px' : '-4px';
 
-        // Load Spotify song
+        // Spotify song laden
         loadUri(favSong);
 
         // Sidebar tonen
@@ -182,9 +204,8 @@ const messagesList = document.querySelector('.messages');
 
 if (chatForm) {
     chatForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Voorkom herladen van de pagina
+        e.preventDefault();
 
-        // Haal de data uit de input velden
         const formData = new FormData(chatForm);
         const data = {
             from: formData.get('from'),
@@ -192,7 +213,6 @@ if (chatForm) {
         };
 
         try {
-            // Verstuur naar de server
             const response = await fetch('/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -200,27 +220,34 @@ if (chatForm) {
             });
 
             if (response.ok) {
-                // Maak een nieuw bericht element aan voor de message container
-                const now = new Date();
-                const day = String(now.getDate()).padStart(2, '0');
-                const month = String(now.getMonth() + 1).padStart(2, '0');
-                const year = now.getFullYear();
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
+                let userColor = '#009100'; // Default kleur als er geen match is
+                const inputName = data.from.toLowerCase().trim();
 
-                const timeString = `${day}-${month}-${year} ${hours}:${minutes}`;
+                personCards.forEach(card => {
+                    const personName = card.getAttribute('data-name').toLowerCase();
+                    if (inputName !== "" && (personName.includes(inputName) || inputName.includes(personName))) {
+                        userColor = card.getAttribute('data-color');
+                    }
+                });
+
+                const contrast = getContrastColor(userColor);
+                const now = new Date();
+                const timeString = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
                 const newMessage = document.createElement('p');
-                newMessage.innerHTML = `<span class="student">${data.from}</span>: ${data.text} <span class="timestamp"> | ${timeString}</span>`;
+                newMessage.style.backgroundColor = userColor;
+                newMessage.style.color = contrast;
 
-                // Voeg toe bovenaan de lijst
+                newMessage.innerHTML = `
+                    <span class="student">${data.from}</span>: ${data.text} 
+                    <span class="timestamp" style="color: ${contrast};"> | ${timeString}</span>
+                `;
+
                 messagesList.prepend(newMessage);
-
-                // Maak het tekstveld leeg
                 document.querySelector('#chatText').value = '';
             }
         } catch (error) {
-            console.error('Fout bij verzenden:', error);
+            console.error('Fout:', error);
         }
     });
 }

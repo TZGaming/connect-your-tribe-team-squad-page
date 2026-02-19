@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="nl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +30,6 @@
           <button type="submit"><img src="images/magnifying-glass.svg" width="20"></button>
         </div>
       </form>
-      
   </nav>
 
   <div class="openChat show">Open chat</div>
@@ -43,11 +41,32 @@
     {% comment %} Berichten {% endcomment %}
     <section class="messagesContainer">
       <div class="messages">
-      {% for message in messages %}
-        <p><span class="student" style="color:{{ person.fav_color }};" >{{ message.from }}</span>: {{ message.text }} <span class="timestamp"> | {{ message.created | date: '%d-%m-%Y %H:%M' }}</span></p>
-      {% else %}
-        <p>Er zijn nog geen berichten voor dit team.</p>
-      {% endfor %}
+        {% for message in messages %}
+          {% comment %} Standaard kleur {% endcomment %}
+          {% assign match_color = '#009100' %}
+          {% assign sender = message.from | downcase %}
+          
+          {% for person in persons %}
+            {% assign p_name = person.name | downcase %}
+            {% if p_name contains sender or sender contains p_name %}
+              {% assign match_color = person.fav_color %}
+            {% endif %}
+          {% endfor %}
+
+          {% comment %} Contrastkleur berekening {% endcomment %}
+          {% assign r = match_color | slice: 1, 2 | hex_to_int %}
+          {% assign g = match_color | slice: 3, 2 | hex_to_int %}
+          {% assign b = match_color | slice: 5, 2 | hex_to_int %}
+          {% assign brightness = r | times: 299 | plus: g | times: 587 | plus: b | times: 114 | divided_by: 1000 %}
+          {% if brightness > 128 %}{% assign text_color = 'white' %}{% else %}{% assign text_color = 'black' %}{% endif %}
+
+          <p style="background-color: {{ match_color }}; color: {{ text_color }};">
+            <span class="student">{{ message.from }}</span>: {{ message.text }} 
+            <span class="timestamp" style="color: {{ text_color }};"> | {{ message.created | date: '%d-%m-%Y %H:%M' }}</span>
+          </p>
+        {% else %}
+          <p>Er zijn nog geen berichten voor dit team.</p>
+        {% endfor %}
       </div>
     </section>
 
@@ -115,7 +134,9 @@
       <p><span class="sidebar-bio"></span></p>
       <p><span class="sidebar-basis-informatie"></span></p>
       <p class="sidebar-github"></p>
-      <div id="embed-iframe"></div>
+      <div id="embed-iframe" style="display: none;">
+        <iframe id="iframe-player"></iframe>
+      </div>
     </section>
 
   </section>
