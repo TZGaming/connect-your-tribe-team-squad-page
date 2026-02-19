@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=chat_paste_go_2" />
+  <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </head>
 
 <body>
@@ -81,6 +82,9 @@
           data-favProperty="{{ person.fav_property}}"
           data-team="{{ person.team }}"
           data-bio='{{ person.bio | escape }}'
+          data-github="{{ person.github_handle }}"
+          data-favSong="{{ person.fav_song }}"
+
           {% if person.nickname contains '<' %}
             data-nickname="" 
           {% else %}
@@ -110,6 +114,8 @@
       {% endif %}
       <p><span class="sidebar-bio"></span></p>
       <p><span class="sidebar-basis-informatie"></span></p>
+      <p class="sidebar-github"></p>
+      <div id="embed-iframe"></div>
     </section>
 
   </section>

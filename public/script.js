@@ -4,6 +4,30 @@ let closeChat = document.querySelector('.closeChat');
 let openChatButton = document.querySelector('.openChat');
 let sideBar = document.querySelector('.person-sidebar-container');
 
+// https://developer.spotify.com/documentation/embeds/tutorials/using-the-iframe-api
+let spotifyPlayer;
+
+window.onSpotifyIframeApiReady = (IFrameAPI) => {
+    const element = document.getElementById('embed-iframe');
+    const options = {
+        width: '100%',
+        height: '200',
+        uri: ''
+    };
+    const callback = (EmbedController) => {
+        spotifyPlayer = EmbedController;
+    };
+    IFrameAPI.createController(element, options, callback);
+};
+
+// Laad spotify uri in
+function loadUri(uri) {
+    if (spotifyPlayer && uri && uri !== 'null') {
+        spotifyPlayer.loadUri(uri);
+    }
+}
+
+
 // Chat sluiten
 closeChat.addEventListener('click', () => {
     chatContainer.classList.add('hide');
@@ -55,6 +79,7 @@ personCards.forEach((card, index) => {
                 sidebarNickname.style.display = "none";
                 sidebarInfo.innerHTML = "";
                 bioElement.innerHTML = "";
+                document.querySelector('.sidebar-github').innerHTML = "";
                 sideBar.style.backgroundColor = "";
                 sideBar.style.outline = "none";
             }, 200);
@@ -82,6 +107,8 @@ personCards.forEach((card, index) => {
         const age = calculateAge(birthdate);
         const favProperty = card.getAttribute('data-favProperty');
         const team = card.getAttribute('data-team');
+        const github = card.getAttribute('data-github');
+        const favSong = card.getAttribute('data-favSong');
 
         // Contrast bepalen
         const contrastColor = getContrastColor(color);
@@ -112,6 +139,14 @@ personCards.forEach((card, index) => {
 
         bioElement.innerHTML = tempDiv.innerHTML || '<em>Geen bio ingevuld</em>';
 
+        // GitHub handle
+        const githubElement = document.querySelector('.sidebar-github');
+        if (github && github !== 'null') {
+            githubElement.innerHTML = `<img src="https://img.icons8.com/ios11/512/FFFFFF/github.png" width="20" style="vertical-align: middle;"> <a href="https://github.com/${github}" target="_blank" style="color: inherit;">${github}</a>`;
+        } else {
+            githubElement.innerHTML = '';
+        }
+
         // Styling
         sideBar.style.backgroundColor = color;
         sideBar.style.color = contrastColor;
@@ -119,6 +154,9 @@ personCards.forEach((card, index) => {
         sidebarName.style.textShadow = (contrastColor === 'black') ? 'none' : '2px 2px 0px #000';
         sideBar.style.outline = (contrastColor === 'black') ? 'none' : '4px solid #ffffff';
         sideBar.style.outlineOffset = (contrastColor === 'black') ? '0px' : '-4px';
+
+        // Load Spotify song
+        loadUri(favSong);
 
         // Sidebar tonen
         sideBar.classList.add('trigger-sidebar');
