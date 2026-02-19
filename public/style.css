@@ -4,12 +4,14 @@ body {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
+    overflow-x: hidden;
 }
 
 .topbar {
     display: flex;
     gap: 14px;
-    align-items: center; 
+    align-items: center;
+    margin-top: 15px;
 }
 
 .topbar details {
@@ -24,14 +26,13 @@ body {
     border-radius: 14px;
     cursor: pointer;
     list-style: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,.6);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
 }
 
 
 .topbar summary::-webkit-details-marker {
     display: none;
 }
-
 
 .topbar ul {
     position: absolute;
@@ -56,11 +57,12 @@ body {
     display: block;
 }
 
-
-
-input{
+input#searchBar {
     height: 2.5em;
     justify-self: center;
+    border-radius: 10px;
+    border: none;
+    padding-left: 6px;
 }
 
 .combi-container {
@@ -72,11 +74,21 @@ input{
     position: sticky;
     top: 0;
     width: 0vw;
-    height: 100vh;
-    background-color: purple;
+    height: 98.5vh;
+    background-color: var(--fav-color);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    transition: width .2s;
+    margin-top: -50px;
+    padding-top: 10px;
+    padding-left: 15px;
+    color: white;
+    transition: .2s;
+
+    h1 {
+        
+        paint-order: stroke fill;
+    }
+
     &.trigger-sidebar {
         width: 50vw;
     }
@@ -106,18 +118,28 @@ input{
     animation-name: pageload;
     animation-duration: 0.3s;
     animation-fill-mode: forwards;
-    animation-timing-function: cubic-bezier(.52,.91,.8,1);
+    animation-timing-function: cubic-bezier(.52, .91, .8, 1);
+    transition: .1s;
+
+    &:hover, &.active {
+        outline: 4px solid var(--hover-color);
+        outline-offset: -4px;
+        -webkit-box-shadow: 0px 0px 15px 2px var(--hover-color);
+        box-shadow: 0px 0px 15px 2px var(--hover-color);
+        cursor: pointer;
+    }
 }
 
 @keyframes pageload {
-  0% {
-    opacity: 0;
-    scale: 0;
-  }
-  100% {
-    opacity: 1;
-    scale: 1;
-  }
+    0% {
+        opacity: 0;
+        scale: 0;
+    }
+
+    100% {
+        opacity: 1;
+        scale: 1;
+    }
 }
 
 .person-frame {
@@ -163,9 +185,7 @@ input{
     flex-direction: column;
     align-content: space-between;
     width: 400px;
-    height: 500px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-radius: 10px;
     background-color: #323232;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     position: fixed;
@@ -201,6 +221,7 @@ input{
 
         & .closeChat {
             transition: scale .15s;
+
             &:hover {
                 scale: 1.3;
                 cursor: pointer;
@@ -220,13 +241,11 @@ input{
             height: 200px;
         }
 
-
         & .messages {
             height: 99%;
             overflow-x: hidden;
             overflow-y: scroll;
             -ms-overflow-style: none;
-            scrollbar-width: none;
             border-radius: 10px;
             padding-left: 5px;
         }
@@ -234,9 +253,9 @@ input{
         & p {
             font-style: italic;
             border-bottom: 0.5px solid #515151;
-            padding: 20px;
+            padding: 15px;
             background-color: #009100;
-            width: max-content;
+            width: 85%;
             border-radius: 10px;
             margin-right: 1000px;
         }
@@ -259,7 +278,7 @@ input{
         flex-direction: row;
         align-content: flex-end;
         width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         margin-top: 10px;
 
         @media screen and (max-width: 440px) {
@@ -272,7 +291,16 @@ input{
             flex-direction: column;
         }
 
+        & input {
+            border: none;
+            border-radius: 5px;
+            height: 1.7em;
+        }
+
         & button {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
             background-color: transparent;
             border-width: 0;
             font-family: inherit;
@@ -282,9 +310,11 @@ input{
             line-height: inherit;
             padding: 0;
             cursor: pointer;
-            transition: scale .2s;
-            :hover {
-                scale: 1.1;
+            span {
+                transition: scale .2s;
+                &:hover {
+                    scale: 1.2;
+                }
             }
         }
 
@@ -297,6 +327,24 @@ input{
                 'opsz' 24
         }
     }
+}
+
+.messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 2px solid transparent;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .openChat {

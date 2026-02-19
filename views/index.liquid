@@ -2,23 +2,6 @@
 <html lang="nl">
 
 <head>
-  <nav class="topbar">
-        
-        <details> 
-          <summary>Sorteren</summary>
-          <ul>
-            <li><a href="/">Id</a></li>
-         <li> <a href="/az">A-Z</a></li>
-          <li><a href="/za">Z-A</a></li>
-         <li> <a href="/squad-1j">Squad 1J</a></li>
-          <li><a href="/squad-1I">Squad 1I</a></li>
-          </ul>
-          
-        </details>
-        <input type="search" placeholder="Zoeken.">
-        <button type="submit"></button>
-    </nav>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Radiant Squad Page</title>
@@ -29,63 +12,85 @@
 
 <body>
 
+  <nav class="topbar">
+    <details> 
+      <summary>Sorteren</summary>
+        <ul>
+          <li><a href="/">Id</a></li>
+          <li> <a href="/az">A-Z</a></li>
+          <li><a href="/za">Z-A</a></li>
+          <li> <a href="/squad-1j">Squad 1J</a></li>
+          <li><a href="/squad-1I">Squad 1I</a></li>
+        </ul>
+      </details>
+    <input id="searchBar" type="search" placeholder="Zoeken...">
+    <button type="submit"></button>
+  </nav>
+
   <div class="openChat show">Open chat</div>
 
-<div class="chatContainer hide">
-  <div class="closeChatContainer">
-    <div class="closeChat">x</div>
+  <div class="chatContainer hide">
+    <div class="closeChatContainer">
+      <div class="closeChat">x</div>
+    </div>
+    {% comment %} Berichten {% endcomment %}
+    <section class="messagesContainer">
+      <div class="messages">
+      {% for message in messages %}
+        <p><span class="student" style="color:{{ person.fav_color }};" >{{ message.from }}</span>: {{ message.text }} <span class="timestamp"> | {{ message.created | date: '%d-%m-%Y %H:%M' }}</span></p>
+      {% else %}
+        <p>Er zijn nog geen berichten voor dit team.</p>
+      {% endfor %}
+      </div>
+    </section>
+
+    <form method="POST" action="/" class="inputFields">
+      <label>
+        Naam:
+            <input type="text" name="from" required placeholder="Typ je naam...">
+      </label>
+      <label>
+        Bericht:
+        <input type="text" name="text" required placeholder="Typ je bericht...">
+      </label>
+      <button type="submit">
+        <span class="material-symbols-outlined">chat_paste_go_2</span>
+      </button>
+    </form>
   </div>
-  {% comment %} Berichten {% endcomment %}
-<section class="messagesContainer">
-  <div class="messages">
-{% for message in messages %}
-  <p><span class="student" style="color:{{ person.fav_color }};" >{{ message.from }}</span>: {{ message.text }} <span class="timestamp"> | {{ message.created | date: '%d-%m-%Y %H:%M' }}</span>
-</p>
-{% else %}
-  <p>Er zijn nog geen berichten voor dit team.</p>
-{% endfor %}
-</div>
-</section>
 
-<form method="POST" action="/" class="inputFields">
-  <label>
-    Naam:
-        <input type="text" name="from" required placeholder="Typ je naam...">
-</label>
-  <label>
-    Bericht:
-    <input type="text" name="text" required placeholder="Typ je bericht...">
-  </label>
-  <button type="submit">
-    <span class="material-symbols-outlined">
-chat_paste_go_2
-</span>
-  </button>
-</form>
+  <section class="combi-container">
+    {% comment %} Personen grid {% endcomment %}
+    <section class="grid">
+      {% for person in persons %}
+        <article class="person-card" 
+          style="--hover-color: {{ person.fav_color }};"
+          data-name="{{ person.name }}"
+          data-squad="{{ person.squads[0].squad_id.name }}"
+          data-residency="{{ person.residency }}"
+          data-color="{{ person.fav_color }}"
+          data-bio='{{ person.bio | escape }}'>
 
-</div>
-
-<section class="combi-container">
-  {% comment %} Personen grid {% endcomment %}
-  <section class="grid">
-    {% for person in persons %}
-      <article class="person-card">
-        <a class="person-frame">
-          {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' or person.name == 'Isolde Sturkenboom' %}
-            <img src="images/temp.png">
-          {% else %}
-            <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
-          {% endif %}
-        </a>
-        <div class="person-info">
-          <h3>{{ person.name }}</h3>
-          <p>{{ person.vibe_emoji }}  {{ person.id }} {{ person.fav_emoji }} </p>
-        </div>
-      </article>
-    {% endfor %}
-  </section>
+          <a class="person-frame">
+            {% if person.name == 'Yassir Bouyi' or person.name == 'Mohamed el Ibrahymy' or person.name == 'Isolde Sturkenboom' %}
+              <img src="images/temp.png">
+            {% else %}
+              <img src="{% if person.mugshot %}https://fdnd.directus.app/assets/{{ person.mugshot }}?width=500{% elsif person.avatar %}{{ person.avatar }}{% else %}img/placeholder.png{% endif %}" alt="Profiel foto van {{ person.name }}">
+            {% endif %}
+          </a>
+          <div class="person-info">
+            <h3>{{ person.name }}</h3>
+            <p>{{ person.vibe_emoji }}  {{ person.id }} {{ person.fav_emoji }} </p>
+          </div>
+        </article>
+      {% endfor %}
+    </section>
 
   <section class="person-sidebar-container">
+    <h1 class="sidebar-name"></h1>
+    <p><span class="sidebar-bio">-</span></p>
+    <p>Squad: <span class="sidebar-squad">-</span></p>
+    <p>Woonplaats: <span class="sidebar-residency">-</span></p>
   </section>
-</section>
+
 </body>
