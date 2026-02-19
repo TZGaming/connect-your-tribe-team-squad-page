@@ -223,3 +223,34 @@ app.get('/squad-1I', async function (request, response) {
   // Geef ook de eerder opgehaalde squad data mee aan de view
   response.render('index.liquid', {persons: personResponseJSON.data})
 })
+
+
+
+const letter = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']; 
+
+app.get('/search', async function (request, response) {
+// kijkt naar of de waarde correct is, anders geeft hij niks terug 
+ const search = request.query.search;
+ 
+ const issearch = request.query.search
+
+  const params = {
+  //  sorteren op naam
+    'sort': 'name',
+    'fields': '*,squads.*',
+
+    
+    'filter[squads][squad_id][tribe][name]': 'FDND Jaar 1',
+    'filter[squads][squad_id][cohort]': '2526',
+    // zoekt voor dingen in de zoekbalk
+    'filter[name][_icontains]': search,
+  }
+  const personResponse = await fetch('https://fdnd.directus.app/items/person/?' + new URLSearchParams(params))
+
+  
+  const personResponseJSON = await personResponse.json()
+
+
+  response.render('index.liquid', {query: search, persons: personResponseJSON.data, letterArray: letter, issearch: issearch});
+});
+
