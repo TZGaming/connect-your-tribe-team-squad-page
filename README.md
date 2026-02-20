@@ -1,4 +1,4 @@
-
+    
 # Squad Page
 Ontwerp en maak samen met je team een website met NodeJS, Express, JSON en Liquid
 
@@ -85,6 +85,35 @@ https://github.com/TZGaming/connect-your-tribe-team-squad-page/blob/5a9a180b745f
 https://github.com/TZGaming/connect-your-tribe-team-squad-page/blob/5a9a180b745f41fd04b46965727d1cb11be932ec/public/style.css#L305-L307
 https://github.com/TZGaming/connect-your-tribe-team-squad-page/blob/5a9a180b745f41fd04b46965727d1cb11be932ec/public/style.css#L348-L351
 Aangezien er veel gebruik is gemaakt van layouts, is de site op zichzelf respnsive en zijn er weinig elementen waar mediaqueries voor nodig zijn.
+
+# Kenmerken 
+Dit project hebben wij gerealiseerd met HTML, CSS, JS , NodeJS,Express, liquid en json .
+Het belangrijkste wat we hebben gebruikt is Node.js dit zorgt ervoor dat je data kan inladen. 
+Deze ingeladen data wordt dan via de liquid omgezet tot html code. 
+Je kan ook routes maken om dingen te posten. Zo hebben we aan de hand van de POST en GET functie een werkende chat kunnen maken.
+De GET functie wacht eigenlijk totdat de actie waaraan hij gekoppeld is uitgevoerd wordt.
+Zodat hij daarna uit de api kan ophalen die jij wilt. 
+
+Let op voor elke post en get moet weer een nieuwe route aangemaakt worden 
+
+De POST daarin tegen zet de data van jou site, bijvoorbeeld je antwoord van een formulier of dus je reactie in de chat om en verstuurd deze via http naar de webserver 
+
+# Installatie 
+Hoe zou je zo eenvoudig mogelijk in ons project kunnen inspringen. 
+ Stap 1 : lees onze readMe nog goed door om een precieser idee te krijgen van onze site en ontwerp keuzes. En of dit project je interesseert 
+ 
+ Stap 2 : Bezoek https://nodejs.org/en/download en download hier de Node.JS v24.13.1(lts) versie 
+ 
+ Stap 3 : fork en clone de repo en open deze in je code editor 
+
+ Stap 4 : open de terminal dit kan handmatig of op mac met de short cut (cmd+`)
+
+ stap 5 : schrijf "npm install" in de terminal om zo de note modules map te downloaden 
+
+ Stap 6 : schrijf nu "npm start" in de terminal als je dit hebt gedaan staat de server tijdelijk live op je local host.
+ Hier kan je gemakkelijk zien hoe je site en de aanpassingen op de site eruit zien 
+
+ (vergeet niet je local host elke keer opnieuw op te starten wanneer er aanpassingen zijn gemaakt in de server.js) 
 
 # Bronnen
 https://whois.fdnd.nl/docs/
