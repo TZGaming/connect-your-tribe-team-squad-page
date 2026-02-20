@@ -21,7 +21,7 @@ Om zo de gebruikers ervaring en het vinden van een bepaald kaartje zo makkelijk 
 
 ### Chat functie
 
-#### Chat demo
+#### Chat
 https://github.com/user-attachments/assets/1839998f-2753-4444-8807-57afcbc9d8e2
 
 #### Showcase code
@@ -34,6 +34,28 @@ Het neemt dan de waarde die ingevuld is in de name inputfield en maakt het lower
 https://github.com/TZGaming/connect-your-tribe-team-squad-page/blob/e59c86743a286c7dbbb0fe6085df48d0e81b632e/views/index.liquid#L56-L60
 Hier wordt gechekt met hulp van een formule of de contrast tussen de persoon zijn/haar kleur en de tekstkleur niet te laag is en past een witte of zwarte tekstkleur toe op basis van het resultaat.
 https://github.com/TZGaming/connect-your-tribe-team-squad-page/blob/e59c86743a286c7dbbb0fe6085df48d0e81b632e/views/index.liquid#L61
+
+### Grid layout
+https://github.com/user-attachments/assets/5f611028-a407-4fae-b0c1-65e630cf2edc
+
+#### Showcase code
+https://github.com/TZGaming/connect-your-tribe-team-squad-page/blob/e59c86743a286c7dbbb0fe6085df48d0e81b632e/views/index.liquid#L94
+Tijdens het genereren van de grid, wordt voor elke persoon de waarde fav_color inline toegepast als :hover stijl over zijn/haar kaart.
+
+### Filter
+https://github.com/TZGaming/connect-your-tribe-team-squad-page/blob/e59c86743a286c7dbbb0fe6085df48d0e81b632e/views/index.liquid#L97-L105
+
+#### Showcase code
+Hier wordt de persoon toegewezen aan een squad op basis van s_name zodat de variabele gebruikt kan worden in de squad filter.
+Ook is het mogeljk om te sorteren op de persoon's ID, naam van A-Z en Z-A.
+
+
+
+
+
+
+
+
 
 
 
